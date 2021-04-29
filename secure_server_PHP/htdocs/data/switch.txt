@@ -1,0 +1,2 @@
+# IP		PORT	USER	PASSWD	PROTOCOLVENDOR
+192.168.176.149	22 	admin	cisco 	ssh	cisco
